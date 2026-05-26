@@ -1,8 +1,17 @@
 import { productModel } from "../models/product.model.js"
+import { productSchema } from '../validators/product.validator.js'
 
 async function createProducts(req, res) {
     try {
+const result = productSchema.safeParse(req.body)
+ if(!result.success){
+            return res.status(400).json({
+                message: result.error.issues[0].message
+            })
+        }
+
         const { name, description, price, category, stock } = req.body
+        
 
         const product = await productModel.create({
             name,
@@ -11,6 +20,7 @@ async function createProducts(req, res) {
             category,
             stock
         })
+        
 
         res.status(201).json({
             message: 'product created',

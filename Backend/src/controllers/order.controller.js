@@ -5,7 +5,7 @@ async function orderProduct(req, res) {
     try {
         const { productId, quantity, address } = req.body
 
-        // get product to calculate total price
+        
         const product = await productModel.findById(productId)
 
         if (!product) {
